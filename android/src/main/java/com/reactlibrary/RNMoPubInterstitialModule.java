@@ -1,5 +1,9 @@
 package com.reactlibrary;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
@@ -9,6 +13,9 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import com.mopub.common.MoPub;
+import com.mopub.common.privacy.ConsentDialogListener;
+import com.mopub.common.privacy.PersonalInfoManager;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 
@@ -37,6 +44,28 @@ public class RNMoPubInterstitialModule extends ReactContextBaseJavaModule implem
     @Override
     public String getName() {
         return "RNMoPubInterstitial";
+    }
+
+    @ReactMethod
+    public void showConsent() {
+        Log.d("GDPR_request", "mInterstitial +");
+        final PersonalInfoManager mPersonalInfoManager = MoPub.getPersonalInformationManager();
+        if (mPersonalInfoManager != null) {
+            Log.d("GDPR_request", "mPersonalInfoManager +");
+            mPersonalInfoManager.forceGdprApplies();
+            mPersonalInfoManager.loadConsentDialog(new ConsentDialogListener() {
+                @Override
+                public void onConsentDialogLoaded() {
+                    Log.d("GDPR_request", "Loaded");
+                    mPersonalInfoManager.showConsentDialog();
+                }
+
+                @Override
+                public void onConsentDialogLoadFailed(@NonNull MoPubErrorCode moPubErrorCode) {
+                    Log.d("GDPR_request", moPubErrorCode.toString());
+                }
+            });
+        }
     }
 
     @ReactMethod

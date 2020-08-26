@@ -10,6 +10,7 @@ module.exports = {
     setKeywords: (keywords: string) => RNMoPubInterstitial.setKeywords(keywords),
     isReady: (): Promise => RNMoPubInterstitial.isReady(),
     show: () => RNMoPubInterstitial.show(),
+    showConsent: () => RNMoPubInterstitial.showConsent(),
     addEventListener: (eventType: string, listener: Function)  => emitter.addListener(eventType, listener),
     removeAllListeners: (eventType: string) => emitter.removeAllListeners(eventType)
 };

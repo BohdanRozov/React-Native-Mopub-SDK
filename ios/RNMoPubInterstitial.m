@@ -62,6 +62,33 @@ RCT_EXPORT_METHOD(loadAd) {
     
 }
 
+- (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+ 
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+    
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+    
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
+}
+ 
+RCT_EXPORT_METHOD(showConsent)
+{
+    [[MoPub sharedInstance] loadConsentDialogWithCompletion:^(NSError *error){
+        [[MoPub sharedInstance] showConsentDialogFromViewController:[self topViewController] completion:nil];
+    }];
+}
+
 RCT_EXPORT_METHOD(show) {
     if (self.interstitial != nil) {
         UIViewController *vc = [UIApplication sharedApplication].delegate.window.rootViewController;

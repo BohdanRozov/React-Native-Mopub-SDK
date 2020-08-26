@@ -24,6 +24,7 @@
     sdkConfig.globalMediationSettings = [[NSArray alloc] initWithObjects: @[adColonyMediationSettings, mpGoogleMediationSettings, tapJoyMediationSettings, vungleMediationSettings], nil];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
         NSLog(@"SDK initialization complete");
+        [MoPub sharedInstance].forceGDPRApplicable;
     }];
 }
 

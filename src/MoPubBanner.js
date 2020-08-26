@@ -26,8 +26,7 @@ export default class MoPubBanner extends Component {
 
     render() {
         return (
-            <View style={styles.bannerContainer}>
-                <Banner
+            <Banner
                     adUnitId={this.props.adUnitId}
                     testing={this.props.testing}
                     autoRefresh={this.props.autoRefresh}
@@ -39,14 +38,6 @@ export default class MoPubBanner extends Component {
                     onExpanded={this.props.onExpanded}
                     onCollapsed={this.props.onCollapsed}
                 />
-            </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    bannerContainer: {
-        height: 50,
-        minWidth: 320
-    }
-});

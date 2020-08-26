@@ -18,7 +18,12 @@ RCT_EXPORT_MODULE();
 
 - (UIView *)view
 {
-    RNMoPubBanner *view = [[RNMoPubBanner alloc] initWithAdUnitId:nil size:MOPUB_BANNER_SIZE];
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    BOOL isBig = width >= 400;
+    CGSize adSize = isBig ? MOPUB_MEDIUM_RECT_SIZE : MOPUB_BANNER_SIZE;
+    RNMoPubBanner *view = [[RNMoPubBanner alloc]
+                           initWithAdUnitId:nil
+                           size:adSize];
     return view;
 }
 
